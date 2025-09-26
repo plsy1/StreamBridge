@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 10000; // 从环境变量读取端口，默认 10000
-const logFile = path.join(__dirname, 'access.log');
+const logFile = path.join(__dirname, 'logs', 'access.log');
 
 const streams = new Map(); // rtspUrl => { ffmpeg, clients: [], alive: true }
 
