@@ -25,7 +25,9 @@ docker run -d --name streambridge -p 10000:10000 -e PORT=10000 streambridge
 
 ### **客户端访问示例**
 
-**普通 URL（可复用，多客户端共享）**
+#### /catchup
+
+#### **普通 URL（可复用，多客户端共享）**
 
 ```
 http://localhost:10000/catchup/112.245.125.38:1554/iptv/Tvod/iptv/001/001/ch12122514263996485740.rsc
@@ -40,6 +42,20 @@ http://localhost:10000/catchup/112.245.125.38:1554/iptv/Tvod/iptv/001/001/ch1212
 - 第一个客户端访问会启动 ffmpeg
 - 后续客户端访问普通 URL 会复用 ffmpeg
 - 带 query URL 的每个客户端独立 ffmpeg
+
+#### /tv
+
+**根据 ChannelID 匹配 data.json 内的频道（可复用，多客户端共享）**
+
+```
+http://localhost:10000/tv/ch00000000000000001128
+```
+
+**带 query URL（单独拉流，不复用）**
+
+```
+http://localhost:10000/tv/ch00000000000000001128?tvdr=20250926012300-20250926021300
+```
 
 ### **日志**
 
