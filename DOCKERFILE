@@ -6,6 +6,8 @@ RUN apt-get update && \
 
 WORKDIR /usr/src/app
 
+RUN mkdir -p /usr/src/app/logs
+
 COPY stream-proxy.js ./
 
 EXPOSE 10000

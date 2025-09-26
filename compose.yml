@@ -1,0 +1,10 @@
+services:
+  streambridge:
+    image: plsy1/streambridge:latest
+    container_name: streambridge
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      PORT: 80
+    volumes:
+      - ./logs:/usr/src/app/logs
