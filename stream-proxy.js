@@ -27,12 +27,11 @@ function logAccess(ip, path, rtsp) {
 }
 
 function generatePlaybackUrl(uni_playback, tvdr) {
-    // tvdr=20250926120000GMT-20250926123000GMT
-    const match = tvdr.match(/(\d{14})GMT-(\d{14})GMT/);
+    const match = tvdr.match(/(\d{14})-(\d{14})/);
     if (!match) return null;
     const [_, start, end] = match;
     let url = uni_playback;
-    // 替换 {utc:YmdHMS}GMT 和 {utcend:YmdHMS}GMT
+
     url = url.replace('{utc:YmdHMS}GMT', start);
     url = url.replace('{utcend:YmdHMS}GMT', end);
     return url;
@@ -133,7 +132,7 @@ http.createServer((req, res) => {
             let hasQuery = false;
 
             if (tvdrParam) {
-                const match = tvdrParam.match(/(\d{14})GMT-(\d{14})GMT/);
+                const match = tvdrParam.match(/(\d{14})-(\d{14})/);
                 if (!match) {
                     res.writeHead(400);
                     res.end('Invalid tvdr parameter');
