@@ -62,24 +62,28 @@ http://localhost:10000/catchup/112.245.125.38:1554/iptv/Tvod/iptv/001/001/ch1212
 
 - 可以通过 Nginx 反代，将客户端访问统一到 80 端口：
 
-```
+```nginx
 server {
-    listen 80;
-    server_name yourdomain.com;
-
-    location /catchup/ {
-        proxy_pass http://127.0.0.1:10000;
-        proxy_http_version 1.1;
-        proxy_set_header Connection "";
-        proxy_buffering off;
-    }
+  server_name yourdomain.com;
+  listen 80;
+  listen [::]:80;
+  
+  location /catchup/ {
+      proxy_pass http://127.0.0.1:10000;
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      proxy_buffering off;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
 }
 ```
 
 - Docker 启动示例：
 
-```
-docker run -d --name streambridge -p 8848:8848 -e PORT=8848 streambridge
+```shell
+docker run -d --name streambridge -p 8848:8848 -e PORT=8848 plsy1/streambridge
 ```
 
 ### **License**
