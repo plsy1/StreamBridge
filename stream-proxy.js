@@ -64,7 +64,9 @@ http
           stream.clients.push(res);
           console.log(`[INFO] Reusing existing ffmpeg for ${rtsp}, clients=${stream.clients.length}`);
         } else {
-          const ff = spawn("ffmpeg", ["-i", rtsp, "-c", "copy", "-f", "mpegts", "pipe:1"], { stdio: ["ignore", "pipe", "ignore"] });
+          const ff = spawn("ffmpeg", ["-i", rtsp, "-c", "copy", "-f", "mpegts", "-fflags", "nobuffer", "-flush_packets", "1", "pipe:1"], {
+            stdio: ["ignore", "pipe", "ignore"],
+          });
 
           const clients = [res];
           stream = { ffmpeg: ff, clients, alive: true };
@@ -156,7 +158,9 @@ http
           stream.clients.push(res);
           console.log(`[INFO] Reusing existing ffmpeg for tv/${ChannelID}, clients=${stream.clients.length}`);
         } else {
-          const ff = spawn("ffmpeg", ["-i", rtsp, "-c", "copy", "-f", "mpegts", "pipe:1"], { stdio: ["ignore", "pipe", "ignore"] });
+          const ff = spawn("ffmpeg", ["-i", rtsp, "-c", "copy", "-f", "mpegts", "-fflags", "nobuffer", "-flush_packets", "1", "pipe:1"], {
+            stdio: ["ignore", "pipe", "ignore"],
+          });
 
           const clients = [res];
           stream = { ffmpeg: ff, clients, alive: true };
