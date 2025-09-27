@@ -89,7 +89,7 @@ http
             stream.clients.forEach((r) => {
               try {
                 r.end();
-              } catch (e) {}
+              } catch (e) { }
             });
             if (!hasQuery) streams.delete(rtsp);
             console.log(`[INFO] ffmpeg exited for ${rtsp}`);
@@ -107,7 +107,7 @@ http
             console.log(`[INFO] All clients disconnected, killing ffmpeg for ${rtsp}`);
             try {
               stream.ffmpeg.kill("SIGINT");
-            } catch (e) {}
+            } catch (e) { }
           } else {
             console.log(`[INFO] Client disconnected from ${rtsp}, remaining clients=${stream.clients.length}`);
           }
@@ -156,27 +156,7 @@ http
           stream.clients.push(res);
           console.log(`[INFO] Reusing existing ffmpeg for tv/${ChannelID}, clients=${stream.clients.length}`);
         } else {
-          const ff = spawn(
-            "ffmpeg",
-            [
-              "-i",
-              rtsp,
-              "-c",
-              "copy",
-              "-f",
-              "mpegts",
-              "-fflags",
-              "nobuffer",
-              "-flush_packets",
-              "1",
-              "-g",
-              "25",
-              "-force_key_frames",
-              "expr:gte(t,n_forced*1)",
-              "pipe:1",
-            ],
-            { stdio: ["ignore", "pipe", "ignore"] }
-          );
+          const ff = spawn("ffmpeg", ["-i", rtsp, "-c", "copy", "-f", "mpegts", "pipe:1"], { stdio: ["ignore", "pipe", "ignore"] });
 
           const clients = [res];
           stream = { ffmpeg: ff, clients, alive: true };
@@ -201,7 +181,7 @@ http
             stream.clients.forEach((r) => {
               try {
                 r.end();
-              } catch (e) {}
+              } catch (e) { }
             });
             if (!hasQuery) streams.delete(rtsp);
             console.log(`[INFO] ffmpeg exited for tv/${ChannelID}`);
@@ -218,7 +198,7 @@ http
             console.log(`[INFO] All clients disconnected, killing ffmpeg for tv/${ChannelID}`);
             try {
               stream.ffmpeg.kill("SIGINT");
-            } catch (e) {}
+            } catch (e) { }
           } else {
             console.log(`[INFO] Client disconnected from tv/${ChannelID}, remaining clients=${stream.clients.length}`);
           }
